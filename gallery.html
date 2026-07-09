@@ -5,7 +5,325 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gallery | Dream Flush Plumbing &amp; Integrated Services</title>
 <meta name="description" content="Photos from Dream Flush job sites across Gwarinpa and Abuja — pipe repairs, bathroom fit-outs, borehole and drainage work.">
-<link rel="stylesheet" href="styles.css">
+<style>
+/* ============================================================
+   DREAM FLUSH — design tokens
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root{
+  --ink:        #14231F;
+  --ink-soft:   #3C4A45;
+  --paper:      #F2F0E8;
+  --paper-dim:  #E8E4D6;
+  --navy:       #0E3A3D;
+  --navy-deep:  #071E20;
+  --aqua:       #2FADBE;
+  --aqua-soft:  #BFE3E6;
+  --copper:     #C1783C;
+  --copper-dim: #E8C9A8;
+  --line:       #D3CDBA;
+  --radius:     3px;
+  --shadow:     0 12px 30px -14px rgba(7,30,32,0.35);
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Work Sans', sans-serif;
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{
+  font-family:'Fraunces', serif;
+  font-weight:600;
+  line-height:1.08;
+  margin:0 0 .5em 0;
+  color:var(--navy-deep);
+  letter-spacing:-0.01em;
+}
+p{margin:0 0 1em 0;}
+a{color:inherit; text-decoration:none;}
+img{max-width:100%; display:block;}
+.mono{font-family:'IBM Plex Mono', monospace;}
+
+.wrap{max-width:1180px; margin:0 auto; padding:0 24px;}
+@media(min-width:768px){.wrap{padding:0 40px;}}
+
+.eyebrow{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:12px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--copper);
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:14px;
+}
+.eyebrow::before{
+  content:'';
+  width:22px;height:1px;background:var(--copper);
+  display:inline-block;
+}
+.spec-tag{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11px;
+  letter-spacing:.04em;
+  color:var(--navy);
+  background:var(--aqua-soft);
+  border:1px solid var(--aqua);
+  padding:3px 8px;
+  border-radius:2px;
+  white-space:nowrap;
+}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex; align-items:center; gap:10px;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:13px; letter-spacing:.05em; text-transform:uppercase;
+  padding:14px 26px;
+  border-radius:var(--radius);
+  border:1px solid transparent;
+  cursor:pointer;
+  transition:transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease;
+}
+.btn-copper{ background:var(--copper); color:#fff; }
+.btn-copper:hover{ transform:translateY(-2px); box-shadow:var(--shadow); background:#A9662D; }
+.btn-outline{ background:transparent; color:var(--paper); border-color:rgba(242,240,232,.4); }
+.btn-outline:hover{ border-color:var(--paper); background:rgba(242,240,232,.08); }
+.btn-outline-dark{ background:transparent; color:var(--navy-deep); border-color:var(--navy-deep); }
+.btn-outline-dark:hover{ background:var(--navy-deep); color:var(--paper); }
+
+/* ---------- top strip ---------- */
+.topstrip{
+  background:var(--navy-deep);
+  color:var(--aqua-soft);
+  font-family:'IBM Plex Mono', monospace;
+  font-size:12px;
+  padding:8px 0;
+}
+.topstrip .wrap{display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap;}
+.topstrip a{color:var(--aqua-soft); transition:color .15s;}
+.topstrip a:hover{color:#fff;}
+.topstrip .dot{color:var(--copper); margin:0 4px;}
+
+/* ---------- nav ---------- */
+header.site{
+  position:sticky; top:0; z-index:50;
+  background:rgba(242,240,232,.92);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+}
+nav.main{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px 0;
+}
+.logo{
+  display:flex; flex-direction:column; line-height:1;
+}
+.logo .name{
+  font-family:'Fraunces', serif; font-weight:700; font-size:20px; color:var(--navy-deep);
+  letter-spacing:-0.01em;
+}
+.logo .tag{
+  font-family:'IBM Plex Mono', monospace; font-size:10px; letter-spacing:.12em;
+  color:var(--copper); text-transform:uppercase; margin-top:3px;
+}
+.nav-links{
+  display:none; gap:34px; align-items:center;
+  font-family:'IBM Plex Mono', monospace; font-size:13px; letter-spacing:.03em; text-transform:uppercase;
+}
+.nav-links a{ position:relative; color:var(--ink-soft); padding:4px 0; }
+.nav-links a:hover, .nav-links a.active{ color:var(--navy-deep); }
+.nav-links a.active::after{
+  content:''; position:absolute; left:0; right:0; bottom:-4px; height:2px; background:var(--copper);
+}
+@media(min-width:900px){ .nav-links{display:flex;} .nav-cta{display:inline-flex;} .hamburger{display:none;} }
+
+.nav-cta{
+  display:none;
+  font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:.05em; text-transform:uppercase;
+  background:var(--navy-deep); color:#fff; padding:11px 20px; border-radius:var(--radius);
+}
+.nav-cta:hover{ background:var(--copper); }
+
+.hamburger{
+  display:flex; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:6px;
+}
+.hamburger span{width:26px; height:2px; background:var(--navy-deep); display:block; transition:all .25s ease;}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+.mobile-menu{
+  position:fixed; inset:0; top:0; background:var(--navy-deep); z-index:60;
+  display:flex; flex-direction:column; justify-content:center; align-items:flex-start;
+  padding:40px; gap:0;
+  transform:translateY(-100%); transition:transform .35s cubic-bezier(.65,0,.35,1);
+}
+.mobile-menu.open{ transform:translateY(0); }
+.mobile-menu a{
+  font-family:'Fraunces', serif; font-size:34px; color:var(--paper); padding:14px 0;
+  border-bottom:1px solid rgba(242,240,232,.12); width:100%;
+}
+.mobile-menu .close{
+  position:absolute; top:20px; right:24px; background:none; border:none; color:var(--paper);
+  font-size:28px; cursor:pointer; font-family:'IBM Plex Mono', monospace;
+}
+.mobile-menu .m-cta{
+  margin-top:24px;
+}
+
+/* ---------- hero pattern ---------- */
+.hero-dark{
+  background:radial-gradient(120% 140% at 85% 0%, #113F42 0%, var(--navy-deep) 60%);
+  color:var(--paper);
+  position:relative;
+  overflow:hidden;
+}
+.hero-dark::after{
+  content:'';
+  position:absolute; inset:0;
+  background-image:
+    linear-gradient(rgba(242,240,232,.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(242,240,232,.045) 1px, transparent 1px);
+  background-size:38px 38px;
+  pointer-events:none;
+}
+
+/* ---------- pipe route signature ---------- */
+.pipe-route{
+  position:relative;
+}
+.pipe-route svg{
+  position:absolute; left:50%; top:0; transform:translateX(-50%);
+  height:100%; width:auto; z-index:0; opacity:.9;
+}
+.pipe-joint{
+  position:relative; z-index:1;
+}
+.pipe-joint .node{
+  width:13px; height:13px; border-radius:50%; background:var(--copper);
+  border:3px solid var(--paper); box-shadow:0 0 0 1px var(--copper);
+  margin:0 auto 18px auto;
+}
+.joint-connector{ display:flex; flex-direction:column; align-items:center; margin:0 auto; width:fit-content; }
+.joint-node{
+  width:11px; height:11px; border-radius:50%; background:var(--copper);
+  margin-top:-4px; box-shadow:0 0 0 5px var(--paper);
+}
+
+/* ---------- section rhythm ---------- */
+section{ padding:88px 0; }
+.section-tight{ padding:56px 0; }
+.divider{ height:1px; background:var(--line); border:none; }
+
+/* ---------- cards ---------- */
+.card{
+  background:#fff; border:1px solid var(--line); border-radius:var(--radius);
+  padding:32px; transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.card:hover{ transform:translateY(-4px); box-shadow:var(--shadow); border-color:var(--aqua); }
+
+.service-icon{
+  width:46px; height:46px; border-radius:50%;
+  background:var(--navy-deep); color:var(--aqua-soft);
+  display:flex; align-items:center; justify-content:center;
+  margin-bottom:20px;
+}
+
+/* ---------- reveal on scroll ---------- */
+.reveal{ opacity:0; transform:translateY(22px); transition:opacity .7s ease, transform .7s ease; }
+.reveal.in{ opacity:1; transform:translateY(0); }
+
+/* ---------- footer ---------- */
+footer.site{
+  background:var(--navy-deep); color:var(--paper); padding:64px 0 24px 0;
+}
+footer.site h4{ color:var(--paper); font-size:16px; }
+footer.site a{ color:var(--aqua-soft); }
+footer.site a:hover{ color:#fff; }
+.foot-grid{
+  display:grid; grid-template-columns:1fr; gap:40px;
+}
+@media(min-width:800px){ .foot-grid{grid-template-columns:1.4fr 1fr 1fr 1.2fr;} }
+.foot-bottom{
+  margin-top:48px; padding-top:20px; border-top:1px solid rgba(242,240,232,.12);
+  font-family:'IBM Plex Mono', monospace; font-size:12px; color:rgba(242,240,232,.55);
+  display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+}
+
+/* ---------- whatsapp float ---------- */
+.wa-float{
+  position:fixed; right:20px; bottom:20px; z-index:70;
+  width:58px; height:58px; border-radius:50%;
+  background:#25D366; color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 10px 24px -6px rgba(0,0,0,.4);
+  animation:wa-pulse 2.6s infinite;
+}
+.wa-float:hover{ transform:scale(1.06); }
+@keyframes wa-pulse{
+  0%{ box-shadow:0 0 0 0 rgba(37,211,102,.5), 0 10px 24px -6px rgba(0,0,0,.4);}
+  70%{ box-shadow:0 0 0 14px rgba(37,211,102,0), 0 10px 24px -6px rgba(0,0,0,.4);}
+  100%{ box-shadow:0 0 0 0 rgba(37,211,102,0), 0 10px 24px -6px rgba(0,0,0,.4);}
+}
+
+/* ---------- page header (inner pages) ---------- */
+.page-head{
+  background:var(--navy-deep); color:var(--paper); padding:64px 0 56px 0;
+  position:relative; overflow:hidden;
+}
+.page-head .wrap{ position:relative; z-index:1; }
+.crumb{
+  font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--copper-dim); margin-bottom:16px;
+}
+.crumb a{ color:var(--aqua-soft); } .crumb a:hover{ color:#fff; }
+
+/* ---------- gallery ---------- */
+.gal-item{
+  position:relative; overflow:hidden; border-radius:var(--radius);
+  border:1px solid var(--line);
+  background:var(--paper-dim);
+}
+.gal-item img{ width:100%; height:100%; object-fit:cover; transition:transform .5s ease; display:block; }
+.gal-item:hover img{ transform:scale(1.06); }
+.gal-cap{
+  position:absolute; left:0; right:0; bottom:0; padding:14px 16px;
+  background:linear-gradient(to top, rgba(7,30,32,.85), transparent);
+  color:#fff; font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:.03em;
+}
+
+/* ---------- forms ---------- */
+.field{ margin-bottom:20px; }
+.field label{
+  display:block; font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:.05em;
+  text-transform:uppercase; color:var(--navy); margin-bottom:8px;
+}
+.field input, .field textarea, .field select{
+  width:100%; padding:13px 14px; border:1px solid var(--line); border-radius:var(--radius);
+  background:#fff; font-family:'Work Sans', sans-serif; font-size:15px; color:var(--ink);
+}
+.field input:focus, .field textarea:focus, .field select:focus{
+  outline:none; border-color:var(--aqua); box-shadow:0 0 0 3px var(--aqua-soft);
+}
+.field textarea{ resize:vertical; min-height:120px; }
+
+/* focus visibility for accessibility */
+a:focus-visible, button:focus-visible{ outline:2px solid var(--copper); outline-offset:2px; }
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation:none !important; transition:none !important; scroll-behavior:auto !important; }
+}
+
+</style>
 </head>
 <body>
 
@@ -154,6 +472,67 @@
   <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.28-1.38a9.9 9.9 0 004.76 1.21h.01c5.46 0 9.9-4.45 9.9-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.06h-.01a8.2 8.2 0 01-4.18-1.14l-.3-.18-3.12.82.83-3.04-.2-.31a8.16 8.16 0 01-1.26-4.3c0-4.51 3.68-8.19 8.2-8.19 2.19 0 4.25.85 5.8 2.4a8.13 8.13 0 012.4 5.8c0 4.51-3.68 8.14-8.16 8.14zm4.48-6.12c-.24-.12-1.45-.72-1.67-.8-.22-.08-.39-.12-.55.12-.16.24-.63.8-.78.96-.14.16-.29.18-.53.06-.24-.12-1.02-.38-1.94-1.2-.72-.64-1.2-1.43-1.34-1.67-.14-.24-.02-.37.11-.49.11-.11.24-.29.36-.43.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.55-1.32-.75-1.8-.2-.48-.4-.42-.55-.42-.14 0-.3-.02-.46-.02s-.42.06-.64.3c-.22.24-.85.83-.85 2.02 0 1.19.87 2.34.99 2.5.12.16 1.71 2.61 4.14 3.66.58.25 1.03.4 1.38.51.58.18 1.11.16 1.53.1.47-.07 1.45-.59 1.65-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.46-.28z"/></svg>
 </a>
 
-<script src="script.js"></script>
+<script>
+// Dream Flush — shared site behaviour
+document.addEventListener('DOMContentLoaded', function () {
+
+  // Mobile menu
+  var hamburger = document.querySelector('.hamburger');
+  var mobileMenu = document.querySelector('.mobile-menu');
+  var closeBtn = document.querySelector('.mobile-menu .close');
+
+  function openMenu(){
+    hamburger.classList.add('open');
+    mobileMenu.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMenu(){
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  if (hamburger && mobileMenu) {
+    hamburger.addEventListener('click', function () {
+      mobileMenu.classList.contains('open') ? closeMenu() : openMenu();
+    });
+  }
+  if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+  document.querySelectorAll('.mobile-menu a').forEach(function (a) {
+    a.addEventListener('click', closeMenu);
+  });
+
+  // Scroll reveal
+  var revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealEls.forEach(function (el) { io.observe(el); });
+  } else {
+    revealEls.forEach(function (el) { el.classList.add('in'); });
+  }
+
+  // Simple contact form handler (static site — no backend)
+  var form = document.getElementById('contact-form');
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var name = form.querySelector('#name').value.trim();
+      var msg = form.querySelector('#message').value.trim();
+      var phone = "2347038870713";
+      var text = "Hello Dream Flush, my name is " + (name || "___") +
+        ". " + (msg || "I would like to request a quote.");
+      var url = "https://wa.me/" + phone + "?text=" + encodeURIComponent(text);
+      window.open(url, "_blank");
+    });
+  }
+});
+
+</script>
 </body>
 </html>
